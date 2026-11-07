@@ -8,6 +8,9 @@ const db = client.db("hireloopDB");
 export const auth = betterAuth({
     emailAndPassword: {
         enabled: true,
+        autoSignIn: false,
+        minPasswordLength: 6,
+        maxPasswordLength: 18,
     },
     database: mongodbAdapter(db, {
         client,

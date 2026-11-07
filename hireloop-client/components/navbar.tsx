@@ -35,7 +35,7 @@ export function NavBar() {
         {/* Sign in + button */}
         <div className="flex items-center gap-4">
           <Link
-            href="#"
+            href="/sign-in"
             className="hidden text-sm text-zinc-400 hover:text-white sm:block"
           >
             Sign In
