@@ -7,7 +7,7 @@ const trending = ["Product Designer", "AI Engineering", "DevOps Engineer"]
 
 export function Banner() {
   return (
-    <section className="bg-[#07070a] pt-16 text-white">
+    <section className="bg-[#15171dFF] pt-16 text-white">
       <div className="mx-auto flex w-10/12 flex-col items-center px-4 text-center">
         {/* Small badge */}
         <div className="flex items-center gap-3">
