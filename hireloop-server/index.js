@@ -28,8 +28,17 @@ export async function connectToMongoDB() {
 
 const connectedClient = await connectToMongoDB();
 
+const db = connectedClient.db("hireloopDB");
+const users = db.collection("user");
+
+
 app.get('/', (req, res) => {
     res.send('Working')
+})
+
+app.get('/users', async (req, res) => {
+  const result = await users.find().toArray();
+  res.send(result);
 })
 
 app.listen(port, () => {
