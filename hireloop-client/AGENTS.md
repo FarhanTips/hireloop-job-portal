@@ -24,10 +24,9 @@ email/password sign-in/up, and a mostly stubbed role dashboard.
 - `npm run format` — Prettier, but only `**/*.{ts,tsx}`; CSS/JSON/Markdown are not formatted.
 - No test runner is configured. Do not invent test commands.
 - Use npm; the repo is locked with `package-lock.json`.
-- The tree currently has known baseline failures: `typecheck` errors on the empty
-  `menuItemsByRole` arrays in `components/DashboardSidebar.tsx`, and `lint` errors on
-  generated `hooks/use-mobile.ts` (`react-hooks/set-state-in-effect`). Verify you did not add
-  new failures instead of assuming a clean run.
+- `typecheck` currently passes, but `lint` has a known baseline error in generated
+  `hooks/use-mobile.ts` (`react-hooks/set-state-in-effect`). Verify you did not add new
+  failures instead of assuming a clean run.
 
 ## Next.js 16 notes
 
