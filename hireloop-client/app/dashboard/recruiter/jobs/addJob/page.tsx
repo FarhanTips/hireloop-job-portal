@@ -1,13 +1,15 @@
 "use client"
 
-import { useState, type FormEvent } from "react"
+import { SyntheticEvent, useState } from "react"
 import { useRouter } from "next/navigation"
 import { toast } from "react-toastify"
 import { ArrowRight, BriefcaseBusiness, Building2, CalendarDays, ChevronDown, Globe2, MapPin, } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
+import { createJob } from "@/lib/actions/jobs"
+import { JobType } from "@/lib/types/jobType"
 
-const jobTypes = ["Full-time", "Part-time", "Contract", "Internship"]
+const positions = ["Full-time", "Part-time", "Contract", "Internship"]
 
 const labelClass = "mb-2 block text-sm font-medium text-zinc-300"
 const inputClass =
@@ -18,34 +20,29 @@ const textareaClass =
     "min-h-32 w-full resize-y rounded-lg border border-white/10 bg-[#111116] px-4 py-3 text-sm leading-7 text-white outline-none placeholder:text-zinc-500 focus:border-violet-500/60 focus:ring-2 focus:ring-violet-500/20"
 
 const AddJobsPage = () => {
-    const router = useRouter()
-    const [jobType, setJobType] = useState("Full-time")
+    // const router = useRouter()
+    const [position, setPosition] = useState("Full-time")
     const [remote, setRemote] = useState(true)
 
-    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: SyntheticEvent<HTMLFormElement>) => {
         event.preventDefault()
 
         const form = event.currentTarget
         const formData = new FormData(form)
-
-        const minSalary = Number(formData.get("minSalary"))
-        const maxSalary = Number(formData.get("maxSalary"))
-
-        if (minSalary > maxSalary) {
-            toast.error("Maximum salary must be greater than minimum salary.")
-            return
-        }
-
-        const job = {
+        
+        const newJob = {
             ...Object.fromEntries(formData.entries()),
-            jobType,
+            position,
             remote,
-        }
+        } as JobType
 
-        console.log("New job:", job)
-        toast.success("Job published successfully!")
+        console.log("New job:", newJob)
+
+        const result = await createJob(newJob);
+        console.log("result", result);
+        // toast.success("Job published successfully!")
         form.reset()
-        setJobType("Full-time")
+        setPosition("Full-time")
         setRemote(true)
         // router.push("/dashboard/recruiter/jobs")
     }
@@ -57,7 +54,6 @@ const AddJobsPage = () => {
                 <div className="mb-8 flex flex-col justify-between gap-5 sm:flex-row sm:items-start">
                     <div>
                         <p className="text-sm text-zinc-500">
-                            Manage Jobs <span className="mx-1">/</span>
                             <span className="text-violet-400">Create New Job</span>
                         </p>
                         <h1 className="mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">
@@ -149,16 +145,16 @@ const AddJobsPage = () => {
 
                             <div>
                                 <span className={labelClass}>
-                                    Job Type <span className="text-violet-400">*</span>
+                                    Position <span className="text-violet-400">*</span>
                                 </span>
-                                <input type="hidden" name="jobType" value={jobType} />
+                                <input type="hidden" name="position" value={position} />
                                 <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-                                    {jobTypes.map((type) => (
+                                    {positions.map((type) => (
                                         <button
                                             key={type}
                                             type="button"
-                                            onClick={() => setJobType(type)}
-                                            className={`h-10 cursor-pointer rounded-lg border text-sm transition-colors ${jobType === type
+                                            onClick={() => setPosition(type)}
+                                            className={`h-10 cursor-pointer rounded-lg border text-sm transition-colors ${position === type
                                                     ? "border-violet-500/60 bg-violet-500/10 text-white"
                                                     : "border-white/10 bg-transparent text-zinc-400 hover:border-white/20 hover:text-white"
                                                 }`}
