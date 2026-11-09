@@ -30,6 +30,7 @@ const connectedClient = await connectToMongoDB();
 
 const db = connectedClient.db("hireloopDB");
 const users = db.collection("user");
+const jobs = db.collection("jobs");
 
 
 app.get('/', (req, res) => {
@@ -39,6 +40,13 @@ app.get('/', (req, res) => {
 app.get('/users', async (req, res) => {
   const result = await users.find().toArray();
   res.send(result);
+})
+
+app.post('/add-job', async (req, res) => {
+    const data = req.body;
+    const result = await jobs.insertOne(data);
+
+    res.send(result);
 })
 
 app.listen(port, () => {
