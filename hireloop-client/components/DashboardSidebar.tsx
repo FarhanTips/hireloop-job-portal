@@ -2,6 +2,7 @@
 import {Bookmark,BriefcaseBusiness,Building2,CreditCard,FileText,LayoutDashboard,Settings,Users,} from "lucide-react"
 
 import {Sidebar,SidebarContent,SidebarFooter,SidebarGroup,SidebarHeader,SidebarMenu,SidebarMenuButton,SidebarMenuItem,} from "@/components/ui/sidebar"
+import Link from "next/link"
 
 const menuItemsByRole = {
     seeker: [
@@ -15,6 +16,7 @@ const menuItemsByRole = {
     recruiter: [
         { name: "Dashboard", url: "/dashboard/recruiter", icon: LayoutDashboard },
         { name: "Manage Jobs", url: "/dashboard/recruiter/jobs", icon: BriefcaseBusiness },
+        { name: "Add Jobs", url: "/dashboard/recruiter/jobs/addJob", icon: BriefcaseBusiness },
         { name: "Applications", url: "/dashboard/recruiter/applications", icon: FileText },
         { name: "Settings", url: "/dashboard/recruiter/settings", icon: Settings },
     ],
@@ -31,7 +33,7 @@ const menuItemsByRole = {
 export function DashboardSidebar() {
     // const { data: session } = authClient.useSession()
     // const role = session?.user?.role || "seeker"
-    const role = "seeker"
+    const role = "recruiter"
 
     return (
         <Sidebar className="top-21 h-[calc(100svh-4rem)]">
@@ -41,7 +43,7 @@ export function DashboardSidebar() {
                     <SidebarMenu>
                         {menuItemsByRole[role].map((item) => (
                             <SidebarMenuItem key={item.name}>
-                                <SidebarMenuButton render={<a href={item.url} />}>
+                                <SidebarMenuButton render={<Link href={item.url} />}>
                                     <item.icon />
                                     <span>{item.name}</span>
                                 </SidebarMenuButton>
