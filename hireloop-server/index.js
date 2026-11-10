@@ -53,8 +53,8 @@ app.post('/add-job', async (req, res) => {
 })
 
 app.delete('/jobs/:id', async (req, res) => {
-    const {id} = req.params.id;
-    const result = await jobs.deleteOne({_id: ObjectId(id)});
+    const id = req.params.id;
+    const result = await jobs.deleteOne({_id: new ObjectId(id)});
 
     res.send(result);
 })
