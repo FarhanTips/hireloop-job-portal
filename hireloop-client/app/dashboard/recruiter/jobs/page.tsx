@@ -1,102 +1,14 @@
 import Link from "next/link"
-import {
-    BriefcaseBusiness,
-    Globe2,
-    MapPin,
-    MoreVertical,
-    Plus,
-    SquarePen,
-    Trash2,
-    Users,
-} from "lucide-react"
+import {BriefcaseBusiness,Globe2,MapPin,MoreVertical,Plus,SquarePen,Trash2,Users,} from "lucide-react"
 
 import type { JobType } from "@/lib/types/jobType"
+import { getJobs } from "@/lib/api/jobs"
 
 // Same fields as the addJob form, plus two UI-only extras for the table.
-type JobRow = JobType & { id: number; applicants: number }
-
-const dummyJobs: JobRow[] = [
-    {
-        id: 1,
-        jobTitle: "Frontend Developer",
-        companyName: "HirePulse Network",
-        jobCategory: "Engineering & Tech",
-        position: "Full-time",
-        remote: true,
-        location: "New York, USA",
-        minSalary: "25",
-        maxSalary: "40",
-        frequency: "per hour",
-        deadline: "2026-12-30",
-        applicants: 34,
-        responsibilities: "Build responsive interfaces with React and TypeScript.",
-        requirements: "3+ years with React, TypeScript and modern state tools.",
-    },
-    {
-        id: 2,
-        jobTitle: "Senior Product Designer",
-        companyName: "HirePulse Labs",
-        jobCategory: "Design",
-        position: "Full-time",
-        remote: false,
-        location: "London, UK",
-        minSalary: "45",
-        maxSalary: "60",
-        frequency: "per hour",
-        deadline: "2027-01-14",
-        applicants: 18,
-        responsibilities: "Own the design system and end-to-end product flows.",
-        requirements: "Strong Figma skills and a portfolio of shipped products.",
-    },
-    {
-        id: 3,
-        jobTitle: "DevOps Specialist",
-        companyName: "HirePulse Platform",
-        jobCategory: "Engineering & Tech",
-        position: "Full-time",
-        remote: false,
-        location: "Berlin, Germany",
-        minSalary: "40",
-        maxSalary: "55",
-        frequency: "per hour",
-        deadline: "2026-12-10",
-        applicants: 12,
-        responsibilities: "Maintain CI/CD pipelines and cloud infrastructure.",
-        requirements: "Experience with Docker, Kubernetes and Terraform.",
-    },
-    {
-        id: 4,
-        jobTitle: "Product Marketing Lead",
-        companyName: "HirePulse Network",
-        jobCategory: "Marketing",
-        position: "Contract",
-        remote: true,
-        location: "EU/UK",
-        minSalary: "2000",
-        maxSalary: "3000",
-        frequency: "per month",
-        deadline: "2027-02-01",
-        applicants: 27,
-        responsibilities: "Plan launches and run campaigns across channels.",
-        requirements: "4+ years in B2B marketing with measurable results.",
-    },
-    {
-        id: 5,
-        jobTitle: "QA Automation Engineer",
-        companyName: "HirePulse Platform",
-        jobCategory: "Operations",
-        position: "Part-time",
-        remote: false,
-        location: "Dublin, Ireland",
-        minSalary: "20",
-        maxSalary: "30",
-        frequency: "per hour",
-        deadline: "2026-09-15",
-        applicants: 8,
-        responsibilities: "Write and maintain end-to-end test suites.",
-        requirements: "Experience with Playwright or Cypress.",
-    },
-]
+type JobRow = JobType & {
+    _id: string,
+    applicants?: number
+}
 
 // Status is not stored in JobType, so we derive it from the deadline.
 const isExpired = (deadline: string) => new Date(deadline) < new Date()
@@ -111,8 +23,8 @@ const formatDeadline = (deadline: string) =>
 const StatusBadge = ({ expired }: { expired: boolean }) => (
     <span
         className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs whitespace-nowrap ${expired
-                ? "border-white/10 text-zinc-400"
-                : "border-emerald-500/30 bg-emerald-500/10 text-emerald-400"
+            ? "border-white/10 text-zinc-400"
+            : "border-emerald-500/30 bg-emerald-500/10 text-emerald-400"
             }`}
     >
         <span
@@ -123,7 +35,9 @@ const StatusBadge = ({ expired }: { expired: boolean }) => (
     </span>
 )
 
-const ManageJobsPage = () => {
+const ManageJobsPage = async () => {
+    const jobs: JobRow[] = await getJobs();
+
     return (
         <div className="dark min-h-screen bg-[#08080a] px-4 py-8 text-white sm:px-6 lg:px-10">
             <div className="mx-auto w-full">
@@ -154,12 +68,12 @@ const ManageJobsPage = () => {
 
                 {/* Mobile: one card per job */}
                 <div className="grid gap-4 md:hidden">
-                    {dummyJobs.map((job) => {
+                    {jobs.map((job) => {
                         const expired = isExpired(job.deadline)
 
                         return (
                             <div
-                                key={job.id}
+                                key={job._id}
                                 className="rounded-2xl border border-white/10 bg-[#0c0c10] p-4"
                             >
                                 <div className="flex items-start justify-between gap-3">
@@ -262,9 +176,9 @@ const ManageJobsPage = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {dummyJobs.map((job) => (
+                            {jobs.map((job) => (
                                 <tr
-                                    key={job.id}
+                                    key={job._id}
                                     className="border-t border-white/5 hover:bg-white/5"
                                 >
                                     <td className="px-4 py-4">
