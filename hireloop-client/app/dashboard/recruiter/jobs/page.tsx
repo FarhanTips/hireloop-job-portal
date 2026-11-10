@@ -1,11 +1,12 @@
 import Link from "next/link"
-import {BriefcaseBusiness,Globe2,MapPin,MoreVertical,Plus,SquarePen,Trash2,Users,} from "lucide-react"
+import {BriefcaseBusiness,Globe2,MapPin,MoreVertical,Plus,SquarePen,Users,} from "lucide-react"
 
 import type { JobType } from "@/lib/types/jobType"
 import { getJobs } from "@/lib/api/jobs"
+import { DeleteJobDialog } from "@/components/deleteJobDialog"
 
 // Same fields as the addJob form, plus two UI-only extras for the table.
-type JobRow = JobType & {
+export type JobRow = JobType & {
     _id: string,
     applicants?: number
 }
@@ -138,13 +139,7 @@ const ManageJobsPage = async () => {
                                     >
                                         <SquarePen className="size-3.5" />
                                     </button>
-                                    <button
-                                        type="button"
-                                        aria-label="Delete job"
-                                        className="flex size-8 cursor-pointer items-center justify-center rounded-lg border border-white/10 text-zinc-400 hover:border-white/20 hover:text-white"
-                                    >
-                                        <Trash2 className="size-3.5" />
-                                    </button>
+                                    <DeleteJobDialog job={job}></DeleteJobDialog>
                                     <button
                                         type="button"
                                         aria-label="More options"
@@ -252,13 +247,7 @@ const ManageJobsPage = async () => {
                                             >
                                                 <SquarePen className="size-3.5" />
                                             </button>
-                                            <button
-                                                type="button"
-                                                aria-label="Delete job"
-                                                className="flex size-8 cursor-pointer items-center justify-center rounded-lg border border-white/10 text-zinc-400 hover:border-white/20 hover:text-white"
-                                            >
-                                                <Trash2 className="size-3.5" />
-                                            </button>
+                                            <DeleteJobDialog job={job}></DeleteJobDialog>
                                             <button
                                                 type="button"
                                                 aria-label="More options"
