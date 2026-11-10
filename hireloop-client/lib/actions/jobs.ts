@@ -10,3 +10,11 @@ export const createJob = async (newJob: JobType) => {
   })
   return res.json()
 }
+
+export const deleteJob = async (jobId: string) =>{
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/jobs/${jobId}`,{
+    method: "DELETE"
+  })
+
+  return res.json();
+}
