@@ -36,13 +36,24 @@ app.get('/', (req, res) => {
 })
 
 app.get('/users', async (req, res) => {
-  const result = await users.find().toArray();
-  res.send(result);
+    const result = await users.find().toArray();
+    res.send(result);
 })
 
 app.get('/jobs', async (req, res) => {
-  const result = await jobs.find().toArray();
-  res.send(result);
+    console.log(req.query);
+    const query = {};
+    if (req.query){
+        if (req.query.jobCategory){
+            query.jobCategory = req.query.jobCategory;
+        }
+        if (req.query.remote){
+            query.remote = req.query.remote === "true";
+        }
+
+    }
+    const result = await jobs.find(query).toArray();
+    res.send(result);
 })
 
 app.post('/add-job', async (req, res) => {
@@ -54,7 +65,7 @@ app.post('/add-job', async (req, res) => {
 
 app.delete('/jobs/:id', async (req, res) => {
     const id = req.params.id;
-    const result = await jobs.deleteOne({_id: new ObjectId(id)});
+    const result = await jobs.deleteOne({ _id: new ObjectId(id) });
 
     res.send(result);
 })
