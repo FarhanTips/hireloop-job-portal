@@ -43,12 +43,18 @@ app.get('/users', async (req, res) => {
 app.get('/jobs', async (req, res) => {
     console.log(req.query);
     const query = {};
-    if (req.query){
-        if (req.query.jobCategory){
+    if (req.query) {
+        if (req.query.jobCategory) {
             query.jobCategory = req.query.jobCategory;
         }
-        if (req.query.remote){
+        if (req.query.remote) {
             query.remote = req.query.remote === "true";
+        }
+        if (req.query.search) {
+            query.$or = [
+                { jobTitle: { $regex: req.query.search, $options: "i" } },
+                { location: { $regex: req.query.search, $options: "i" } }
+            ];
         }
 
     }
