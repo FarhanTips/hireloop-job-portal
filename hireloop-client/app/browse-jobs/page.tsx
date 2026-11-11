@@ -1,3 +1,4 @@
+import { getJobs } from '@/lib/api/jobs';
 import React from 'react';
 
 const BrowseJobsPage = async ({searchParams}: {searchParams: Promise<{ [key: string]: string | string[] | undefined }>
@@ -6,6 +7,8 @@ const BrowseJobsPage = async ({searchParams}: {searchParams: Promise<{ [key: str
     console.log(search);
     const query = new URLSearchParams(search as Record<string, string>).toString();
     console.log("query", query);
+
+    const result = await getJobs(query);
     return (
         <div>
             
