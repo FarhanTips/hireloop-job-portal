@@ -20,7 +20,7 @@ const textareaClass =
     "min-h-32 w-full resize-y rounded-lg border border-white/10 bg-[#111116] px-4 py-3 text-sm leading-7 text-white outline-none placeholder:text-zinc-500 focus:border-violet-500/60 focus:ring-2 focus:ring-violet-500/20"
 
 const AddJobsPage = () => {
-    // const router = useRouter()
+    const router = useRouter()
     const [position, setPosition] = useState("Full-time")
     const [remote, setRemote] = useState(true)
 
@@ -29,7 +29,7 @@ const AddJobsPage = () => {
 
         const form = event.currentTarget
         const formData = new FormData(form)
-        
+
         const newJob = {
             ...Object.fromEntries(formData.entries()),
             position,
@@ -40,11 +40,14 @@ const AddJobsPage = () => {
 
         const result = await createJob(newJob);
         console.log("result", result);
-        // toast.success("Job published successfully!")
-        form.reset()
-        setPosition("Full-time")
-        setRemote(true)
-        // router.push("/dashboard/recruiter/jobs")
+        if (result.insertedId) {
+            toast.success("Job published successfully!");
+            form.reset();
+            setPosition("Full-time");
+            setRemote(true);
+            router.push("/dashboard/recruiter/jobs");
+        }
+
     }
 
     return (
@@ -155,8 +158,8 @@ const AddJobsPage = () => {
                                             type="button"
                                             onClick={() => setPosition(type)}
                                             className={`h-10 cursor-pointer rounded-lg border text-sm transition-colors ${position === type
-                                                    ? "border-violet-500/60 bg-violet-500/10 text-white"
-                                                    : "border-white/10 bg-transparent text-zinc-400 hover:border-white/20 hover:text-white"
+                                                ? "border-violet-500/60 bg-violet-500/10 text-white"
+                                                : "border-white/10 bg-transparent text-zinc-400 hover:border-white/20 hover:text-white"
                                                 }`}
                                         >
                                             {type}
