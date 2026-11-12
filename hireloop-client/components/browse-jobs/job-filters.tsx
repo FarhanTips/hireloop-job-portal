@@ -1,5 +1,6 @@
 "use client"
 
+import { useRouter } from "next/navigation"
 import type { ChangeEvent } from "react"
 
 const sameLabelOptions = (values: string[]) =>
@@ -42,12 +43,19 @@ const FILTER_GROUPS = [
 
 /** Single-select filter sidebar. */
 export function JobFilters() {
+  const router = useRouter();
+
   const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
 
     // Single key/value pair, e.g. { position: "Part-time" }
 
-    console.log(name, value)
+    console.log(name, value);
+
+    const params = new URLSearchParams(window.location.search);
+    params.set(name, value);
+    router.push(`/browse-jobs?${params.toString()}`)
+
   }
 
   return (

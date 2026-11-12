@@ -8,23 +8,14 @@ interface BrowseJobsPageProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>
 }
 
-/** Flattens Next's search params into a query string for the jobs API. */
-const toQueryString = (
-  params: Record<string, string | string[] | undefined>
-) => {
-  const query = new URLSearchParams()
-
-  for (const [key, value] of Object.entries(params)) {
-    const firstValue = Array.isArray(value) ? value[0] : value
-    if (firstValue) query.set(key, firstValue)
-  }
-
-  return query.toString()
-}
 
 const BrowseJobsPage = async ({ searchParams }: BrowseJobsPageProps) => {
-  const query = toQueryString(await searchParams)
-  const jobs: JobRow[] = await getJobs(query)
+  const search = await searchParams;
+  console.log(search);
+  const query = new URLSearchParams(search as Record<string, string>).toString();
+  console.log("query", query);
+  
+  const jobs: JobRow[] = await getJobs(query);
 
   return (
     <main className="dark min-h-screen bg-[#08080a] px-4 py-8 text-white sm:px-6 lg:px-10">
