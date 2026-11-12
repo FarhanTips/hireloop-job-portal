@@ -33,7 +33,7 @@ const menuItemsByRole = {
 export function DashboardSidebar() {
     // const { data: session } = authClient.useSession()
     // const role = session?.user?.role || "seeker"
-    const role = "recruiter"
+    const role = "seeker"
 
     return (
         <Sidebar className="top-21 h-[calc(100svh-4rem)]">
