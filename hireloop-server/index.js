@@ -29,6 +29,7 @@ const connectedClient = await connectToMongoDB();
 const db = connectedClient.db("hireloopDB");
 const users = db.collection("user");
 const jobs = db.collection("jobs");
+const applications = db.collection("applications");
 
 
 app.get('/', (req, res) => {
@@ -83,6 +84,13 @@ app.delete('/jobs/:id', async (req, res) => {
 app.get('/jobs/:id', async (req, res) => {
     const id = req.params.id;
     const result = await jobs.findOne({ _id: new ObjectId(id) });
+
+    res.send(result);
+})
+
+app.post("/applyJob", async (req, res) => {
+    const data = req.body;
+    const result = await applications.insertOne(data);
 
     res.send(result);
 })
