@@ -80,6 +80,13 @@ app.delete('/jobs/:id', async (req, res) => {
     res.send(result);
 })
 
+app.get('/jobs/:id', async (req, res) => {
+    const id = req.params.id;
+    const result = await jobs.findOne({ _id: new ObjectId(id) });
+
+    res.send(result);
+})
+
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 })
