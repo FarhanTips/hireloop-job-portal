@@ -1,13 +1,28 @@
 "use client"
 
-import type { FormEvent } from "react"
+import type { SyntheticEvent } from "react"
 import { Search } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 /** Keyword search for the job board. */
 export function JobSearchBar() {
-  const handleSearch = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+  const router = useRouter();
+
+  const handleSearch = (e: SyntheticEvent<HTMLFormElement>) => {
+    e.preventDefault()
     // TODO: apply the keyword search
+    const formData = new FormData(e.currentTarget);
+    const data: Record<string, string> = {};
+
+    formData.forEach((value, key) => {
+      data[key] = value.toString();
+    });
+
+    console.log("data from search", data);
+
+    const params = new URLSearchParams(window.location.search);
+    params.set("search", data.searchField);
+    router.push(`/browse-jobs?${params.toString()}`)
   }
 
   return (
@@ -22,7 +37,7 @@ export function JobSearchBar() {
 
       <input
         type="search"
-        name="search"
+        name="searchField"
         placeholder="Search by job title, keywords..."
         aria-label="Search jobs"
         className="h-10 min-w-0 flex-1 bg-transparent px-2 text-sm text-white outline-none placeholder:text-zinc-500"
