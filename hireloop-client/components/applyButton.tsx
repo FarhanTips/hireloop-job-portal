@@ -2,19 +2,36 @@
 
 "use client";
 
+import { applyToJob } from "@/lib/actions/applications";
 import { authClient } from "@/lib/auth-client";
 import { JobRow } from "@/lib/types/jobType";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
-const ApplyButton = ({job}: {job: JobRow}) => {
+const ApplyButton = ({ job }: { job: JobRow }) => {
     const router = useRouter();
 
-    const { data: session } = authClient.useSession();
+    const { data: session } = authClient.useSession()
 
     const handleApplyButton = async () => {
         if (!session?.user) {
             router.push(`/sign-in?redirectedTo=/browse-jobs/${job._id}`);
             return
+        }
+
+        else {
+            const applicationData = {
+                jobId: job._id,
+                applicantId: session?.user.id,
+                applicantEmail: session?.user.email
+            }
+
+            const result = await applyToJob(applicationData);
+            console.log("result", result);
+            if (result.insertedId) {
+                toast.success("Applied Successfully!");
+                router.push("/dashboard/seeker");
+            }
         }
     }
     return (
