@@ -44,6 +44,9 @@ app.get('/jobs', async (req, res) => {
     console.log(req.query);
     const query = {};
     if (req.query) {
+        if (req.query.position) {
+            query.position = req.query.position;
+        }
         if (req.query.jobCategory) {
             query.jobCategory = req.query.jobCategory;
         }
