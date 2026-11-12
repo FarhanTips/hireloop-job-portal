@@ -95,6 +95,17 @@ app.post("/applyJob", async (req, res) => {
     res.send(result);
 })
 
+app.get('/myApplications', async (req, res) => {
+    const query = {};
+    console.log(req.query)
+    if (req.query.applicantId) {
+        query.applicantId = req.query.applicantId;
+    }
+
+    const result = await applications.find(query).toArray();
+    res.send(result);
+})
+
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 })
