@@ -56,7 +56,8 @@ app.get('/jobs', async (req, res) => {
         if (req.query.search) {
             query.$or = [
                 { jobTitle: { $regex: req.query.search, $options: "i" } },
-                { location: { $regex: req.query.search, $options: "i" } }
+                { location: { $regex: req.query.search, $options: "i" } },
+                { companyName: { $regex: req.query.search, $options: "i" } },
             ];
         }
 
