@@ -5,7 +5,7 @@ import logoImage from "@/app/images/logo.png"
 import UserInfo from "./userInfo"
 
 const navLinks = [
-  { label: "Browse Jobs", href: "#" },
+  { label: "Browse Jobs", href: "/browse-jobs" },
   { label: "Company", href: "#" },
   { label: "Pricing", href: "#" },
 ]

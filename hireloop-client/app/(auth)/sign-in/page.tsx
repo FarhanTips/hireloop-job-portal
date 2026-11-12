@@ -6,12 +6,15 @@ import { Input } from "@/components/ui/input"
 import { authClient } from "@/lib/auth-client"
 import Link from "next/link"
 import { SyntheticEvent } from "react"
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "react-toastify"
 
 export default function LogInPage() {
 
     const router = useRouter();
+
+    const searchParams = useSearchParams();
+    const redirectedTo = searchParams.get("redirectedTo") ?? "/";
 
     const handleLogIn = async (e: SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -39,7 +42,7 @@ export default function LogInPage() {
         }
 
         toast.success("Logged in successfully!");
-        router.push("/");
+        router.push(redirectedTo);
     };
 
     // const handleGoogleSignIn = async () => {

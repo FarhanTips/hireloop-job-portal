@@ -54,6 +54,7 @@ export function JobFilters() {
 
     const params = new URLSearchParams(window.location.search);
     params.set(name, value);
+    // console.log("params", params.toString())
     router.push(`/browse-jobs?${params.toString()}`)
 
   }

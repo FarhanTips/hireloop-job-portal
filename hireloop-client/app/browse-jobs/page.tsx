@@ -31,7 +31,7 @@ const BrowseJobsPage = async ({ searchParams }: BrowseJobsPageProps) => {
             </h1>
 
             {jobs.length > 0 ? (
-              <div className="space-y-4">
+              <div className="flex flex-col gap-4">
                 {jobs.map((job) => (
                   <JobCard key={job._id} job={job} />
                 ))}
