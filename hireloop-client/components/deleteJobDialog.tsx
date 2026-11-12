@@ -5,7 +5,7 @@ import { Trash2, Trash2Icon } from "lucide-react"
 
 import {AlertDialog,AlertDialogAction,AlertDialogCancel,AlertDialogContent,AlertDialogDescription,AlertDialogFooter,AlertDialogHeader,AlertDialogMedia,AlertDialogTitle,AlertDialogTrigger,} from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
-import { JobRow } from "@/app/dashboard/recruiter/jobs/page"
+import type { JobRow } from "@/lib/types/jobType"
 import { deleteJob } from "@/lib/actions/jobs"
 import { toast } from "react-toastify"
 import {useRouter} from "next/navigation";

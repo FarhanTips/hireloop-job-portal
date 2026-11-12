@@ -1,15 +1,9 @@
 import Link from "next/link"
 import {BriefcaseBusiness,Globe2,MapPin,MoreVertical,Plus,SquarePen,Users,} from "lucide-react"
 
-import type { JobType } from "@/lib/types/jobType"
+import type { JobRow } from "@/lib/types/jobType"
 import { getJobs } from "@/lib/api/jobs"
 import { DeleteJobDialog } from "@/components/deleteJobDialog"
-
-// Same fields as the addJob form, plus two UI-only extras for the table.
-export type JobRow = JobType & {
-    _id: string,
-    applicants?: number
-}
 
 // Status is not stored in JobType, so we derive it from the deadline.
 const isExpired = (deadline: string) => new Date(deadline) < new Date()

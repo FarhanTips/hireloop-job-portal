@@ -1,5 +1,3 @@
-
-
 export interface JobType {
   jobTitle: string
   companyName: string
@@ -13,4 +11,10 @@ export interface JobType {
   frequency: "per hour" | "per month" | "per year"
   responsibilities: string
   requirements: string
+}
+
+// A job as it is stored in MongoDB, plus UI-only fields.
+export interface JobRow extends JobType {
+  _id: string
+  applicants?: number
 }
