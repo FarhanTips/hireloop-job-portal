@@ -106,6 +106,17 @@ app.get('/myApplications', async (req, res) => {
     res.send(result);
 })
 
+app.get('/myApplications/count', async (req, res) => {
+    const query = {};
+    console.log(req.query)
+    if (req.query.applicantId) {
+        query.applicantId = req.query.applicantId;
+    }
+
+    const result = await applications.countDocuments(query);
+    res.send({count: result});
+})
+
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 })
