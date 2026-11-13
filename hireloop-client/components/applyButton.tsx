@@ -28,7 +28,7 @@ const ApplyButton = ({ job }: { job: JobRow }) => {
 
             if (totalApplied.count >= 5) {
                 toast.error("Already applied 5 Jobs!")
-                router.push(`/`);
+                router.push(`/payment`);
                 return
             }
             else {

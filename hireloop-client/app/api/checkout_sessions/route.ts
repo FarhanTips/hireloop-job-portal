@@ -3,8 +3,15 @@
 import { NextResponse } from 'next/server'
 import { headers } from 'next/headers'
 import { stripe } from '@/lib/stripe';
+import { auth } from '@/lib/auth';
+
+
 
 export async function POST() {
+  const Usersession = await auth.api.getSession({
+    headers: await headers() 
+  })
+
   try {
     const headersList = await headers()
     const origin = headersList.get('origin')
@@ -14,14 +21,15 @@ export async function POST() {
       line_items: [
         {
           // Provide the exact Price ID (for example, price_1234) of the product you want to sell
-          price: '{{PRICE_ID}}',
+          price: 'price_1UbNq9HnoeD8tbCeE34sGXXk',
           quantity: 1,
         },
       ],
+      customer_email: Usersession?.user.email,
       mode: 'payment',
-      success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${origin}/payment/success?session_id={CHECKOUT_SESSION_ID}`,
       // Provide a name (for example, hosted_web_0001) to label this Checkout integration and measure its conversion independently
-      integration_identifier: '{{INTEGRATION_ID}}',
+      integration_identifier: 'hireloop_web_001',
     });
     return NextResponse.redirect(session.url as string, 303)
   } catch (err) {
