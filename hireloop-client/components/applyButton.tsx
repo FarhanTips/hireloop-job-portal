@@ -4,6 +4,7 @@
 
 import { applyToJob } from "@/lib/actions/applications";
 import { getApplicationsCount } from "@/lib/api/applications";
+import { getPremiumUser } from "@/lib/api/users";
 import { authClient } from "@/lib/auth-client";
 import { JobRow } from "@/lib/types/jobType";
 import { useRouter } from "next/navigation";
@@ -26,7 +27,10 @@ const ApplyButton = ({ job }: { job: JobRow }) => {
             const totalApplied = await getApplicationsCount(`applicantId=${session?.user.id}`);
             console.log("Total Applied", totalApplied);
 
-            if (totalApplied.count >= 5) {
+            const result = await getPremiumUser(session?.user.id);
+            console.log("premium check", result);
+
+            if (totalApplied.count >= 5 && !result.premium) {
                 toast.error("Already applied 5 Jobs!")
                 router.push(`/payment`);
                 return
