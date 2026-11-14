@@ -136,6 +136,7 @@ app.post("/payment-verify", async (req, res) => {
         payment_intent,
         metadata,
         customer_email,
+        amount_total,
     } = await stripe.checkout.sessions.retrieve(sessionId);
 
 
@@ -153,6 +154,7 @@ app.post("/payment-verify", async (req, res) => {
             payment_intent,
             userId: metadata.userId,
             customer_email,
+            paid_amount: amount_total/100,
             payment_date: new Date(),
         }
 
