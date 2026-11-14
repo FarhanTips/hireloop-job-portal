@@ -141,7 +141,7 @@ app.post("/payment-verify", async (req, res) => {
 
     if (status === 'complete' && payment_status === "paid") {
 
-        const existingPayment = await payments.findOne({sessionId: sessionId});
+        const existingPayment = await payments.findOne({ sessionId: sessionId });
         if (existingPayment) {
             return res.send({ success: false, msg: "Payment already verified" });
         }
@@ -172,6 +172,15 @@ app.post("/payment-verify", async (req, res) => {
     }
 
     res.send({ success: false, msg: "payment verification failed" });
+})
+
+app.get('/premium-user/:id', async (req, res) => {
+    const id = req.params.id;
+    const result = await users.findOne(
+        { _id: new ObjectId(id) },
+        { projection: { premium: 1 } }
+    );
+    res.send(result);
 })
 
 app.listen(port, () => {
