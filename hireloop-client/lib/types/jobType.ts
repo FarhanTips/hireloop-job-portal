@@ -11,6 +11,7 @@ export interface JobType {
   frequency: "per hour" | "per month" | "per year"
   responsibilities: string
   requirements: string
+  recruiterId: string
 }
 
 // A job as it is stored in MongoDB, plus UI-only fields.

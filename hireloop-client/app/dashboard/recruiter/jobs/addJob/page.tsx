@@ -8,6 +8,7 @@ import { ArrowRight, BriefcaseBusiness, Building2, CalendarDays, ChevronDown, Gl
 import { Button } from "@/components/ui/button"
 import { createJob } from "@/lib/actions/jobs"
 import { JobType } from "@/lib/types/jobType"
+import { authClient } from "@/lib/auth-client"
 
 const positions = ["Full-time", "Part-time", "Contract", "Internship"]
 
@@ -20,6 +21,8 @@ const textareaClass =
     "min-h-32 w-full resize-y rounded-lg border border-white/10 bg-[#111116] px-4 py-3 text-sm leading-7 text-white outline-none placeholder:text-zinc-500 focus:border-violet-500/60 focus:ring-2 focus:ring-violet-500/20"
 
 const AddJobsPage = () => {
+    const { data: session } = authClient.useSession();
+    
     const router = useRouter()
     const [position, setPosition] = useState("Full-time")
     const [remote, setRemote] = useState(true)
@@ -34,6 +37,7 @@ const AddJobsPage = () => {
             ...Object.fromEntries(formData.entries()),
             position,
             remote,
+            recruiterId: session?.user.id,
         } as JobType
 
         console.log("New job:", newJob)

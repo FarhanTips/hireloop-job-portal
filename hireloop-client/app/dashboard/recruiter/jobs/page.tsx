@@ -1,9 +1,11 @@
 import Link from "next/link"
-import {BriefcaseBusiness,Globe2,MapPin,MoreVertical,Plus,SquarePen,Users,} from "lucide-react"
+import { BriefcaseBusiness, Globe2, MapPin, MoreVertical, Plus, SquarePen, Users, } from "lucide-react"
 
 import type { JobRow } from "@/lib/types/jobType"
 import { getJobs } from "@/lib/api/jobs"
 import { DeleteJobDialog } from "@/components/deleteJobDialog"
+import { auth } from "@/lib/auth"
+import { headers } from "next/headers"
 
 // Status is not stored in JobType, so we derive it from the deadline.
 const isExpired = (deadline: string) => new Date(deadline) < new Date()
@@ -31,7 +33,11 @@ const StatusBadge = ({ expired }: { expired: boolean }) => (
 )
 
 const ManageJobsPage = async () => {
-    const jobs: JobRow[] = await getJobs();
+    const session = await auth.api.getSession({
+        headers: await headers()
+    })
+
+    const jobs: JobRow[] = await getJobs(`recruiterId=${session?.user.id}`);
 
     return (
         <div className="dark min-h-screen bg-[#08080a] px-4 py-8 text-white sm:px-6 lg:px-10">
