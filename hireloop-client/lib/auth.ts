@@ -12,6 +12,16 @@ export const auth = betterAuth({
         minPasswordLength: 6,
         maxPasswordLength: 18,
     },
+    user: {
+        additionalFields: {
+            role: {
+                type: ["seeker", "recruiter", "admin"],
+                input: true,
+                defaultValue: "seeker",
+                required: true,
+            }
+        }
+    },
     database: mongodbAdapter(db, {
         client,
     }),

@@ -13,7 +13,7 @@ const UserInfo = () => {
     const { data: session, isPending } = authClient.useSession();
     console.log("nav bar session", session);
 
-    if (isPending){
+    if (isPending) {
         return (
             <div className="text-white">Loading...</div>
         );
@@ -34,6 +34,16 @@ const UserInfo = () => {
             {
                 session?.user ?
                     <div className="flex items-center gap-4">
+                        <Link href={
+                            session.user.role === "seeker"
+                                ? "/dashboard/seeker"
+                                : session.user.role === "recruiter"
+                                    ? "/dashboard/recruiter"
+                                    : session.user.role === "admin" ? "/dashboard/admin" : "/"
+                        } className="text-sm text-zinc-400 hover:text-white">
+                            Dashboard
+                        </Link>
+                        <span className="hidden h-5 w-px bg-white/10 sm:block" />
                         <span className="text-white">{session?.user?.name}</span>
                         <span className="hidden h-5 w-px bg-white/10 sm:block" />
                         <Button onClick={handleSignOut} variant="destructive" className=" hover:opacity-90">

@@ -1,8 +1,9 @@
 "use client"
-import {Bookmark,BriefcaseBusiness,Building2,CreditCard,FileText,LayoutDashboard,Settings,Users,} from "lucide-react"
+import { Bookmark, BriefcaseBusiness, Building2, CreditCard, FileText, LayoutDashboard, Settings, Users, } from "lucide-react"
 
-import {Sidebar,SidebarContent,SidebarFooter,SidebarGroup,SidebarHeader,SidebarMenu,SidebarMenuButton,SidebarMenuItem,} from "@/components/ui/sidebar"
+import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, } from "@/components/ui/sidebar"
 import Link from "next/link"
+import { authClient } from "@/lib/auth-client"
 
 const menuItemsByRole = {
     seeker: [
@@ -31,9 +32,11 @@ const menuItemsByRole = {
 }
 
 export function DashboardSidebar() {
-    // const { data: session } = authClient.useSession()
-    // const role = session?.user?.role || "seeker"
-    const role = "seeker"
+    const { data: session, isPending } = authClient.useSession();
+
+    if (isPending || !session) {
+        return null;
+    }
 
     return (
         <Sidebar className="top-21 h-[calc(100svh-4rem)]">
@@ -41,7 +44,7 @@ export function DashboardSidebar() {
             <SidebarContent>
                 <SidebarGroup>
                     <SidebarMenu>
-                        {menuItemsByRole[role].map((item) => (
+                        {menuItemsByRole[session?.user.role].map((item) => (
                             <SidebarMenuItem key={item.name}>
                                 <SidebarMenuButton render={<Link href={item.url} />}>
                                     <item.icon />

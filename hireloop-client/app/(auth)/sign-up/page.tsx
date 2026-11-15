@@ -29,6 +29,7 @@ export default function SignUpPage() {
             name: user.name,
             email: user.email,
             password: user.password,
+            role: user.role as "seeker" | "recruiter",
         });
 
         console.log("data", data);
@@ -100,6 +101,23 @@ export default function SignUpPage() {
                                     minLength={3}
                                     required
                                 />
+                            </Field>
+
+                            <Field>
+                                <FieldLabel htmlFor="role">Role</FieldLabel>
+                                <select
+                                    id="role"
+                                    name="role"
+                                    required
+                                    defaultValue="Job-Seeker"
+                                    className="h-8 w-full min-w-0 cursor-pointer rounded-lg border border-input bg-transparent px-2.5 py-1 text-base transition-colors outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm dark:bg-input/30"
+                                >
+                                    <option value="" disabled>
+                                        Select your role
+                                    </option>
+                                    <option value="seeker">Job-Seeker</option>
+                                    <option value="recruiter">Recruiter</option>
+                                </select>
                             </Field>
 
                             <Field>
