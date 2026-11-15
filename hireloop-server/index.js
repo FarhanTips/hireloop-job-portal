@@ -58,6 +58,9 @@ app.get('/jobs', async (req, res) => {
         if (req.query.remote) {
             query.remote = req.query.remote === "true";
         }
+        if (req.query.recruiterId) {
+            query.recruiterId = req.query.recruiterId;
+        }
         if (req.query.search) {
             query.$or = [
                 { jobTitle: { $regex: req.query.search, $options: "i" } },
