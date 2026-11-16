@@ -127,6 +127,21 @@ app.get('/myApplications/count', async (req, res) => {
     res.send({ count: result });
 })
 
+app.patch('/applications/:id', async (req, res) => {
+    const id = req.params.id;
+    console.log("req.body",req.body)
+    const result = await applications.updateOne(
+        { _id: new ObjectId(id) },
+        {
+            $set: {
+                applicationStatus: req.body.applicationStatus
+            }
+        }
+    );
+    console.log(result);
+    res.send(result);
+})
+
 app.post("/payment-verify", async (req, res) => {
 
     const { sessionId } = req.body;
@@ -160,7 +175,7 @@ app.post("/payment-verify", async (req, res) => {
             payment_intent,
             userId: metadata.userId,
             customer_email,
-            paid_amount: amount_total/100,
+            paid_amount: amount_total / 100,
             payment_date: new Date(),
         }
 
