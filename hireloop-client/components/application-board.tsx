@@ -40,17 +40,17 @@ const ApplicationBoard = async ({ applications }: ApplicationBoardProps) => {
     <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#0b0b10]/80 shadow-[0_24px_70px_-30px_rgba(0,0,0,0.9)] backdrop-blur-xl">
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-violet-400/50 to-transparent"
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-violet-400/50 to-transparent"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-32 left-1/2 h-56 w-[32rem] -translate-x-1/2 rounded-full bg-violet-500/15 blur-3xl"
+        className="pointer-events-none absolute -top-32 left-1/2 h-56 w-lg -translate-x-1/2 rounded-full bg-violet-500/15 blur-3xl"
       />
 
       <div className="overflow-x-auto">
-        <table className="w-full min-w-[720px] text-left text-sm">
+        <table className="w-full min-w-180 text-left text-sm">
           <thead>
-            <tr className="border-b border-white/10 bg-white/[0.03]">
+            <tr className="border-b border-white/10 bg-white/3">
               <th className="px-6 py-4 text-[11px] font-semibold tracking-[0.16em] text-zinc-400 uppercase">
                 Job Title
               </th>
@@ -71,11 +71,11 @@ const ApplicationBoard = async ({ applications }: ApplicationBoardProps) => {
               jobs.map((job, index) => (
                 <tr
                   key={applications[index]._id ?? applications[index].jobId}
-                  className="group transition-colors duration-200 hover:bg-white/[0.04]"
+                  className="group transition-colors duration-200 hover:bg-white/4"
                 >
                   <td className="px-6 py-5">
                     <div className="flex items-center gap-3.5">
-                      <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500/25 to-fuchsia-500/10 text-violet-300 ring-1 ring-white/10 ring-inset transition-colors duration-200 group-hover:text-violet-200">
+                      <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-violet-500/25 to-fuchsia-500/10 text-violet-300 ring-1 ring-white/10 ring-inset transition-colors duration-200 group-hover:text-violet-200">
                         <BriefcaseBusiness className="size-4" />
                       </span>
                       <div className="min-w-0">
@@ -105,7 +105,7 @@ const ApplicationBoard = async ({ applications }: ApplicationBoardProps) => {
                   <td className="px-6 py-5 text-right">
                     <Link
                       href={`/browse-jobs/${applications[index].jobId}`}
-                      className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1.5 text-xs font-medium text-zinc-300 transition-all duration-200 hover:border-violet-400/30 hover:bg-violet-500/10 hover:text-violet-200"
+                      className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/3 px-3.5 py-1.5 text-xs font-medium text-zinc-300 transition-all duration-200 hover:border-violet-400/30 hover:bg-violet-500/10 hover:text-violet-200"
                     >
                       Details
                       <ArrowUpRight className="size-3.5" />
@@ -117,7 +117,7 @@ const ApplicationBoard = async ({ applications }: ApplicationBoardProps) => {
               <tr>
                 <td colSpan={4} className="px-6 py-16">
                   <div className="flex flex-col items-center gap-3 text-center">
-                    <span className="flex size-12 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-500/20 to-fuchsia-500/5 text-violet-300 ring-1 ring-white/10 ring-inset">
+                    <span className="flex size-12 items-center justify-center rounded-2xl bg-linear-to-br from-violet-500/20 to-fuchsia-500/5 text-violet-300 ring-1 ring-white/10 ring-inset">
                       <Inbox className="size-5" />
                     </span>
                     <div>
