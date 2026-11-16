@@ -108,6 +108,9 @@ app.get('/myApplications', async (req, res) => {
     if (req.query.applicantId) {
         query.applicantId = req.query.applicantId;
     }
+    if (req.query.jobId) {
+        query.jobId = req.query.jobId;
+    }
 
     const result = await applications.find(query).toArray();
     res.send(result);
