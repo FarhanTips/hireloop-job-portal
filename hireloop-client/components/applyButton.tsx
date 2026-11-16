@@ -39,7 +39,8 @@ const ApplyButton = ({ job }: { job: JobRow }) => {
                 const applicationData = {
                     jobId: job._id,
                     applicantId: session?.user.id,
-                    applicantEmail: session?.user.email
+                    applicantEmail: session?.user.email,
+                    applicationStatus: "applied",
                 }
 
                 const result = await applyToJob(applicationData);

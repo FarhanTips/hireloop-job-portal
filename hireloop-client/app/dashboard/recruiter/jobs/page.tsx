@@ -130,7 +130,7 @@ const ManageJobsPage = async () => {
                                         type="button"
                                         className="h-8 flex-1 cursor-pointer rounded-lg border border-violet-500/40 text-xs font-medium text-violet-300 hover:bg-violet-500/10"
                                     >
-                                        Update
+                                        View Status
                                     </button>
                                     <button
                                         type="button"
@@ -234,12 +234,11 @@ const ManageJobsPage = async () => {
 
                                     <td className="px-4 py-4">
                                         <div className="flex items-center justify-end gap-2">
-                                            <button
-                                                type="button"
-                                                className="h-8 cursor-pointer rounded-lg border border-violet-500/40 px-3 text-xs font-medium text-violet-300 hover:bg-violet-500/10"
-                                            >
-                                                Update
-                                            </button>
+
+                                            <Link href={`/dashboard/recruiter/jobs/${job._id}`} className="flex h-8 w-full items-center justify-center rounded-lg border border-violet-500/40 px-3 text-xs font-medium text-violet-300 hover:bg-violet-500/10">
+                                                    View Status
+                                            </Link>
+
                                             <button
                                                 type="button"
                                                 aria-label="Edit job"
@@ -248,13 +247,7 @@ const ManageJobsPage = async () => {
                                                 <SquarePen className="size-3.5" />
                                             </button>
                                             <DeleteJobDialog job={job}></DeleteJobDialog>
-                                            <button
-                                                type="button"
-                                                aria-label="More options"
-                                                className="flex size-8 cursor-pointer items-center justify-center rounded-lg text-zinc-500 hover:text-white"
-                                            >
-                                                <MoreVertical className="size-4" />
-                                            </button>
+
                                         </div>
                                     </td>
                                 </tr>
