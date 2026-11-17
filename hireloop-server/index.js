@@ -45,6 +45,19 @@ app.get('/users', async (req, res) => {
     res.send(result);
 })
 
+app.patch("/user/role-update/:id", async (req, res) =>{
+    const id = req.params.id
+    const result = await users.updateOne(
+        {_id: new ObjectId(id)},
+        {
+            $set: {
+                role: req.body.role
+            }
+        }
+    );
+    res.send(result);
+})
+
 app.get('/jobs', async (req, res) => {
     console.log(req.query);
     const query = {};
