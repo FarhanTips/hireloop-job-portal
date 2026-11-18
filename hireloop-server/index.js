@@ -15,6 +15,22 @@ app.use(cors());
 app.use(express.json());
 
 
+
+const verifyToken = async (req, res, next) => {
+    // console.log(req.headers.authorization);
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+        res.send({ status: 401, msg: "Falsy authHeader" });
+    }
+    const token = authHeader.split(" ")[1];
+    // console.log(token)
+    if (!token) {
+        res.send({ status: 401, msg: "Falsy token" });
+    }
+    next();
+}
+
+
 const client = new MongoClient(process.env.MONGODB_URL);
 
 export async function connectToMongoDB() {
@@ -45,10 +61,10 @@ app.get('/users', async (req, res) => {
     res.send(result);
 })
 
-app.patch("/user/role-update/:id", async (req, res) =>{
+app.patch("/user/role-update/:id", async (req, res) => {
     const id = req.params.id
     const result = await users.updateOne(
-        {_id: new ObjectId(id)},
+        { _id: new ObjectId(id) },
         {
             $set: {
                 role: req.body.role
@@ -115,7 +131,7 @@ app.post("/applyJob", async (req, res) => {
     res.send(result);
 })
 
-app.get('/myApplications', async (req, res) => {
+app.get('/myApplications', verifyToken, async (req, res) => {
     const query = {};
     console.log(req.query)
     if (req.query.applicantId) {
@@ -142,7 +158,7 @@ app.get('/myApplications/count', async (req, res) => {
 
 app.patch('/applications/:id', async (req, res) => {
     const id = req.params.id;
-    console.log("req.body",req.body)
+    console.log("req.body", req.body)
     const result = await applications.updateOne(
         { _id: new ObjectId(id) },
         {
