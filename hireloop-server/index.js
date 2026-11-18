@@ -16,21 +16,6 @@ app.use(express.json());
 
 
 
-const verifyToken = async (req, res, next) => {
-    // console.log(req.headers.authorization);
-    const authHeader = req.headers.authorization;
-    if (!authHeader) {
-        res.send({ status: 401, msg: "Falsy authHeader" });
-    }
-    const token = authHeader.split(" ")[1];
-    // console.log(token)
-    if (!token) {
-        res.send({ status: 401, msg: "Falsy token" });
-    }
-    next();
-}
-
-
 const client = new MongoClient(process.env.MONGODB_URL);
 
 export async function connectToMongoDB() {
@@ -50,6 +35,40 @@ const users = db.collection("user");
 const jobs = db.collection("jobs");
 const applications = db.collection("applications");
 const payments = db.collection("payments");
+const sessions = db.collection("session");
+
+
+
+const verifyToken = async (req, res, next) => {
+    // console.log(req.headers.authorization);
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+        return res.status(401).send({ msg: "Falsy token" });
+    }
+    const token = authHeader.split(" ")[1];
+    // console.log(token)
+    if (!token) {
+        return res.status(401).send({ msg: "Falsy token" });
+    }
+
+    const session = await sessions.findOne({ token: token });
+    if (!session) {
+        return res.status(401).send({ msg: "Unauthorized" });
+    }
+    const userId = session.userId;
+    // console.log("user", userId)
+
+    const user = await users.findOne({ _id: new ObjectId(userId) });
+    // console.log(user)
+    if (!user) {
+        return res.status(401).send({ msg: "Unauthorized" });
+    }
+
+    req.user = user;
+    // console.log(req.user)
+    next();
+}
+
 
 
 app.get('/', (req, res) => {
@@ -138,6 +157,10 @@ app.get('/myApplications', verifyToken, async (req, res) => {
         query.applicantId = req.query.applicantId;
     }
     if (req.query.jobId) {
+        const job = await jobs.findOne({_id: new ObjectId(req.query.jobId)});
+        if (job.recruiterId !== req.user._id.toString()){
+            return res.status(403).send({ msg: "Forbidden" });
+        }
         query.jobId = req.query.jobId;
     }
 
