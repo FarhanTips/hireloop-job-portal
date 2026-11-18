@@ -1,7 +1,11 @@
 
+import { authFetch } from "../core/server";
+
 
 export const getApplications = async (query="") => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/myApplications?${query}`);
+  const api = `${process.env.NEXT_PUBLIC_API_URL}/myApplications?${query}`;
+  const res = await authFetch(api);
+  // const res = await fetch(api)
   return res.json()
 }
 
