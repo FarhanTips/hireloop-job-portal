@@ -93,7 +93,7 @@ app.get('/', (req, res) => {
     res.send('Working')
 })
 
-app.get('/users', async (req, res) => {
+app.get('/users', verifyToken, verifyAdmin, async (req, res) => {
     const result = await users.find().toArray();
     res.send(result);
 })
