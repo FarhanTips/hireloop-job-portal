@@ -1,13 +1,10 @@
+'use server';
 import type { JobType } from "@/lib/types/jobType"
+import { authMutate } from "../core/server";
 
 export const createJob = async (newJob: JobType) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/add-job`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(newJob),
-  })
+  const api = `${process.env.NEXT_PUBLIC_API_URL}/add-job`;
+  const res = await authMutate(api, "POST", newJob);
   return res.json()
 }
 
