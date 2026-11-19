@@ -3,7 +3,6 @@
 import { headers } from "next/headers";
 import { auth } from "../auth";
 import { redirect } from "next/navigation";
-import { toast } from "react-toastify";
 
 export const getSession = async () => {
     const session = await auth.api.getSession({

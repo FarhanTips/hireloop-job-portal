@@ -31,7 +31,7 @@ const formatDate = (date: Date | string) =>
 
 interface UserManagementProps {
   users: {
-    id: string
+    _id: string
     name: string
     email: string
     role?: string | null
@@ -125,7 +125,7 @@ export function UserManagement({ users }: UserManagementProps) {
 
                 return (
                   <tr
-                    key={user.id}
+                    key={user._id}
                     className="border-t border-white/5 hover:bg-white/3"
                   >
                     <td className="px-5 py-4">
@@ -166,7 +166,7 @@ export function UserManagement({ users }: UserManagementProps) {
                               key={option}
                               type="button"
                               title={`Make ${option}`}
-                              onClick={() => handleRoleChange(user.id, option)}
+                              onClick={() => handleRoleChange(user._id, option)}
                               className={cn(
                                 "cursor-pointer rounded-md px-2.5 py-1.5 text-xs font-medium capitalize",
                                 role === option
