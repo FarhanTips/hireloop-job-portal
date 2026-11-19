@@ -69,6 +69,24 @@ const verifyToken = async (req, res, next) => {
     next();
 }
 
+const verifySeeker = async (req, res, next) => {
+    if (req.user.role !== "seeker"){
+        return res.status(403).send({ msg: "Forbidden" });
+    }
+    next();
+}
+const verifyRecruiter = async (req, res, next) => {
+    if (req.user.role !== "recruiter"){
+        return res.status(403).send({ msg: "Forbidden" });
+    }
+    next();
+}
+const verifyAdmin = async (req, res, next) => {
+    if (req.user.role !== "admin"){
+        return res.status(403).send({ msg: "Forbidden" });
+    }
+    next();
+}
 
 
 app.get('/', (req, res) => {
@@ -80,7 +98,7 @@ app.get('/users', async (req, res) => {
     res.send(result);
 })
 
-app.patch("/user/role-update/:id", async (req, res) => {
+app.patch("/user/role-update/:id", verifyToken, verifyAdmin, async (req, res) => {
     const id = req.params.id
     const result = await users.updateOne(
         { _id: new ObjectId(id) },
@@ -122,7 +140,7 @@ app.get('/jobs', async (req, res) => {
     res.send(result);
 })
 
-app.post('/add-job', async (req, res) => {
+app.post('/add-job', verifyToken, verifyRecruiter, async (req, res) => {
     const data = req.body;
     const result = await jobs.insertOne(data);
 
@@ -143,7 +161,7 @@ app.get('/jobs/:id', async (req, res) => {
     res.send(result);
 })
 
-app.post("/applyJob", async (req, res) => {
+app.post("/applyJob", verifyToken, verifySeeker, async (req, res) => {
     const data = req.body;
     const result = await applications.insertOne(data);
 
